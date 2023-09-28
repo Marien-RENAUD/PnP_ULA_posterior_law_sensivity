@@ -3,7 +3,7 @@
 ## Environment
 To set up the environment, use the command :
 ```
-conda env create -f requirement.yml 
+conda env create -f environment.yml 
 ```
 
 ## Experiment for gray-scale images
