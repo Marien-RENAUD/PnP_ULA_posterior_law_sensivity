@@ -12,9 +12,9 @@ The folder pnp_ula_images contains the code use to run PnP-ULA on images (in gra
 
 <table>
   <tr>
-    <td><img src="pnp_ula_images/results/result_gray/simpson_nb512/simpson_gif.gif" width="250" height="250" /></td>
-    <td><img src="pnp_ula_images/results/result_rgb/woman02/woman_2_gif.gif" width="250" height="250" /></td>
-    <td><img src="pnp_ula_images/results/result_rgb/woman03/woman_3_gif.gif" width="250" height="250" /></td>
-    <td><img src="pnp_ula_images/results/result_rgb/castle/castle_gif.gif" width="250" height="250" /></td>
+    <td><img src="pnp_ula_images/results/result_gray/simpson_nb512/simpson_gif.gif" width="220" height="220" /></td>
+    <td><img src="pnp_ula_images/results/result_rgb/woman02/woman_2_gif.gif" width="220" height="220" /></td>
+    <td><img src="pnp_ula_images/results/result_rgb/woman03/woman_3_gif.gif" width="220" height="220" /></td>
+    <td><img src="pnp_ula_images/results/result_rgb/castle/castle_gif.gif" width="220" height="220" /></td>
   </tr>
 </table>
