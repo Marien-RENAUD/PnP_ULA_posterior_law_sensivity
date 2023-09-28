@@ -10,6 +10,10 @@ The folder pnp_ula_GMM_2D contains a notebook with the experiment for GMM in 2D.
 
 The folder pnp_ula_images contains the code use to run PnP-ULA on images (in gray-scale and in color). A specific README.md explain how to use the code in that folder. Various results of PnP-ULA on different images can also be find in the folder pnp_ula_images/results.
 
+## Results
+
+Here are some video presented samples during the stochastic process. Note how the quality increase during this process and how the Markov Chain continue to discover new possibilities.
+
 <table>
   <tr>
     <td><img src="pnp_ula_images/results/result_gray/simpson_nb512/simpson_gif.gif" width="220" height="220" /></td>
