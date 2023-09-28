@@ -18,4 +18,3 @@ The folder pnp_ula_images contains the code use to run PnP-ULA on images (in gra
     <td><img src="pnp_ula_images/results/result_rgb/castle/castle_gif.gif" width="160" height="160" /></td>
   </tr>
 </table>
-
