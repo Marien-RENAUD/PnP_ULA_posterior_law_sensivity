@@ -16,15 +16,15 @@ Here are some video presented samples during the stochastic process. Note how th
 
 <table>
   <tr>
-    <td><img src="pnp_ula_images/results/result_gray/simpson_nb512/simpson_gif.gif" width="180" height="180" /></td>
-    <td><img src="pnp_ula_images/results/result_rgb/woman02/woman_2_gif.gif" width="180" height="180" /></td>
+    <td><img src="pnp_ula_images/results/result_gray/simpson_nb512/simpson_gif.gif" width="300" height="300" /></td>
+    <td><img src="pnp_ula_images/results/result_rgb/woman02/woman_2_gif.gif" width="300" height="300" /></td>
   </tr>
 </table>
 
 <table>
   <tr>
-    <td><img src="pnp_ula_images/results/result_rgb/woman03/woman_3_gif.gif" width="180" height="180" /></td>
-    <td><img src="pnp_ula_images/results/result_rgb/castle/castle_gif.gif" width="180" height="180" /></td>
+    <td><img src="pnp_ula_images/results/result_rgb/woman03/woman_3_gif.gif" width="300" height="300" /></td>
+    <td><img src="pnp_ula_images/results/result_rgb/castle/castle_gif.gif" width="300" height="300" /></td>
   </tr>
 </table>
 
