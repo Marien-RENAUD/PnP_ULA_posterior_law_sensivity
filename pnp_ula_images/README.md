@@ -1,4 +1,4 @@
-# PnP_ULA_posterior_law_sensivity
+# PnP-ULA on images
 
 ## Environment
 To set up the environment, use the command :
@@ -8,24 +8,19 @@ conda env create -f requirement.yml
 
 ## Experiment for gray-scale images
 
-To run a PnP-ULA sampling for gray-scale images, use the DnCNN architecture, use, for example, the command :
+To run a PnP-ULA sampling for 256*256 gray-scale images, a demonstration is provided by using the command :
 ```
-python pnpula_experiment.py --n_iter 10000 --img 'simpson_nb512.png' --path_result 'gray/simpson' --model_name "layers_models_50epochs/Layers17" --gpu_number 0
+bash pnp_ula_experiment.sh
 ```
-Results are save in the folder 'results/gray/simpson' for this example. The file 'simpson_nb512_sigma1_s5_sampling.pth' save the sampling during the process and the file 'simpson_nb512_sigma1_s5_result.npy' gives the all experiment parameters and results (sampling, MMSE, PSNR, SIM...).
+Results are save in the folder 'results/result_gray'. For each experiment a folder is create with a .npy file gives the all experiment parameters and results (sampling, MMSE, PSNR, SIM...). Different visualization are also generated.
 
 ## Experiment for color images
 
-To run a PnP-ULA sampling for color RGB images, use the Drunet architecture, use, for example, the command :
+To run a PnP-ULA sampling for 256*256 color images, a demonstration is provided by using the command :
 ```
-python pnpula_experiment_rgb.py --n_iter 10000 --img 'woman01.jpg' --path_result 'color/woman01' --gpu_number 1
+bash pnp_ula_experiment_rgb.sh
 ```
-Results are save in the folder 'results\woman01' for this example. The file 'woman01_sigma1_s5_sampling.pth' save the sampling during the process and the file 'woman01_sigma1_s5_result.npy' gives the all experiment parameters and results (sampling, MMSE, PSNR, SIM...).
-
-## Result analysis
-result_analysis.py and result_analysis_rgb.py are use to analysis the result give by the different Markov Chain and compute the posterior-$L_2$ distance
-between denoisers and the Wasserstein distance between sampling. result_analysis_2.py and result_analysis_2_rgb.py are only here to generate graphics of the result.
+Results are save in the folder 'results/result_rgb'. For each experiment a folder is create with a .npy file gives the all experiment parameters and results (sampling, MMSE, PSNR, SIM...). Different visualization are also generated.
 
 ## Other folders
-Folder model and models conatain the architecture used in our experiments. Pretrained_model contains the weight of pretrained models, in the file layers_models_50epochs, weights for DnCNN with different number of layers (between 1 and 17) and the other file '.pth' contains Drunet weights learnt with different dataset on 256*256 RGB images. And the folder images contains the images used in our experiments.
-
+The folder 'images' contains all the images used in our experiments. 'models' contains the different Neural Network architecture. 'Pretrained_models' contains the weights of pretrained models used in our experiments. 'pnpula_experiment.py', 'pnpula_experiment_rgb.py' and 'utils.py' contains the code to compute the PnP-ULA dynamic and generate the results.

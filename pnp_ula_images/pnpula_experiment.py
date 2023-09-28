@@ -1,4 +1,18 @@
+import torch
+import torch.nn as nn
+import numpy as np
+from tqdm import tqdm
+import matplotlib.pyplot as plt
+from skimage.metrics import structural_similarity as ssim
+from skimage.metrics import peak_signal_noise_ratio as PSNR
+import os
 from utils import *
+import argparse
+import imageio
+
+###
+# Parser arguments
+###
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--n_iter", type=int, default=10000, help='number of iteration in PnP-ULA')
@@ -18,6 +32,8 @@ pars = parser.parse_args()
 ###
 # PARAMETERS
 ###
+
+#images used : 'simpson_nb512.png', 'castle.png', 'goldhill.png', 'duck.png', 'cameraman.png'
 
 Pb = ['deblurring'] # 'deblurring', 'inpainting
 N = 256 #size of the image N*N
@@ -91,9 +107,9 @@ deltat = torch.tensor(delta, dtype = dtype, device = device)
 ###
 
 if pars.Lip:
-    from model.realSN_models import DnCNN
+    from models.model_dncnn.realSN_models import DnCNN
 else:
-    from model.models import DnCNN
+    from models.model_dncnn.models import DnCNN
 path_model = "Pretrained_models/" + pars.model_name + ".pth"
 net = DnCNN(channels=1, num_of_layers=pars.num_of_layers)
 model = nn.DataParallel(net,device_ids=[int(str(device)[-1])],output_device=device)#.cuda()
@@ -153,25 +169,23 @@ name = '{}_sigma{}_s{}'.format(name_im, sigma, s)
 
 Samples_t, Mmse_t, Mmse2_t = pnpula(init = init_torch, data_grad = data_grad, prior_grad = prior_grad, delta = deltat, lambd = lambdt, seed = seed, device = device, n_iter = n_iter, n_inter = n_inter, n_inter_mmse = n_inter_mmse, path = path_result, name = name)
 
-###
-# Compututation on the results
-###
-
+#convert object in numpy array for analyse
 Samples, Mmse, Mmse2, Psnr_sample, SIM_sample = [], [], [], [], []
-for sample in Samples_t:
+
+for i, sample in enumerate(Samples_t):
     samp = sample.cpu().detach().numpy()
     Psnr_sample.append(PSNR(im, samp, data_range = 1))
     SIM_sample.append(ssim(im, samp, data_range = 1))
     Samples.append(samp)
-for m in Mmse_t:
-    Mmse.append(m.cpu().detach().numpy())
-for m in Mmse2_t:
-    Mmse2.append(m.cpu().detach().numpy())
-del Samples_t
-del Mmse_t 
-del Mmse2_t
 
-#observation
+for m in Mmse_t:
+    im_ = m.cpu().detach().numpy()
+    Mmse.append(im_)
+for m in Mmse2_t:
+    im_ = m.cpu().detach().numpy()
+    Mmse2.append(im_)
+
+#save the observation
 y = y_t.cpu().detach().numpy()
 y = y[0,0,:,:]
 psb = PSNR(im, y, data_range = 1)
@@ -179,12 +193,16 @@ ssb = ssim(im, y, data_range = 1)
 
 # Compute PSNR and SIM for the online MMSE
 n = len(Mmse)
-print(n)
 PSNR_list = []
 SIM_list = []
+Mmse = np.array(Mmse)
+
+mean_list = np.cumsum(Mmse, axis = 0) / np.arange(1,n+1)[:,None,None]
+
 for i in range(1,n):
-    PSNR_list.append(PSNR(im, np.mean(Mmse[:i], axis = 0), data_range = 1))
-    SIM_list.append(ssim(im, np.mean(Mmse[:i], axis = 0), data_range = 1))
+    mean = mean_list[i]
+    PSNR_list.append(PSNR(im, mean, data_range = 1))
+    SIM_list.append(ssim(im, mean, data_range = 1))
 
 # Computation of the mean and std of the whole Markov chain
 xmmse = np.mean(Mmse, axis = 0)
@@ -235,7 +253,6 @@ np.save(path_result+'/'+ name +'_result.npy', dict)
 ###
 
 #save the observation
-
 plt.imsave(path_result + '/observation.png', y, cmap = 'gray')
 
 #creation of a video of the samples
@@ -297,7 +314,7 @@ ax1.imshow(std, cmap = 'gray')
 ax1.axis('off')
 ax1.set_title("Std of the Markov Chain")
 ax2 = fig.add_subplot(1,2,2)
-ax2.imshow(diff, cmap = 'gray')
+ax2.imshow(np.abs(im-xmmse), cmap = 'gray')
 ax2.axis('off')
 ax2.set_title("Diff MMSE-GT")
 fig.savefig(path_result+'/Std_of_the_Markov_Chain_'+name_im+'n_iter{}'.format(n_iter)+'.png')

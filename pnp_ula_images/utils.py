@@ -1,14 +1,4 @@
-"""
-Created on Tues Jul 19 2023
-
-@author: Marien
-
-Content:
-    - Useful functions for PnP-ULA
-"""
-
 import torch
-import torch.nn as nn
 import numpy as np
 from tqdm import tqdm
 import matplotlib.pyplot as plt
@@ -16,7 +6,7 @@ from skimage.metrics import structural_similarity as ssim
 from skimage.metrics import peak_signal_noise_ratio as PSNR
 import os
 import utils
-from models.denoiser import Denoiser
+from models.model_drunet.denoiser import Denoiser
 import argparse
 import imageio
 import cv2

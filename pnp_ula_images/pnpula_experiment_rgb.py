@@ -6,7 +6,7 @@ from skimage.metrics import structural_similarity as ssim
 from skimage.metrics import peak_signal_noise_ratio as PSNR
 import os
 import utils
-from models.network_unet import UNetRes as net
+from models.model_drunet.network_unet import UNetRes as net
 import argparse
 import cv2
 import imageio
@@ -30,7 +30,8 @@ parser.add_argument("--l", type=int, default = 4, help='(2*l+1)*(2*l+1) is the s
 parser.add_argument("--si", type=float, default = 1., help='std of the blur kernel in case of gaussian blur')
 parser.add_argument("--log", type=bool, default = True, help='Print and save images/video to see the behaviour of the algorithm')
 parser.add_argument("--Pb", type=str, default = 'deblurring', help="Type of problem, possible : 'deblurring', 'inpainting'")
-parser.add_argument("--y_path", type=str, default = None, help="If not None, the path of the observation y")
+parser.add_argument("--y_path", type=str, default = None, help="If not None, the path of the observation y, use to compute a forward model mismatch")
+parser.add_argument("--seed", type=int, default = 40, help="Seed for reproductivity of the algorithm")
 pars = parser.parse_args()
 
 ###
@@ -93,7 +94,7 @@ device = "cuda:"+str(pars.gpu_number)
 dtype = torch.float32
 tensor = torch.FloatTensor
 # Seed
-seed = 40
+seed = pars.seed
 
 # Prior regularization parameter
 alphat = torch.tensor(alpha, dtype = dtype, device = device)
